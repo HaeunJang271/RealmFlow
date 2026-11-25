@@ -6,7 +6,7 @@ export const BOARDS = 'gno.land/r/demo/boards'
 export const BLOG = 'gno.land/r/gnoland/blog'
 export const DAO = 'gno.land/r/gov/dao'
 export const USERS = 'gno.land/r/sys/users'
-export const REGISTRY = import.meta.env?.VITE_REGISTRY_REALM || 'gno.land/r/realmflow/registry'
+export const REGISTRY = import.meta.env?.VITE_REGISTRY_REALM || 'gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2'
 export const demos: Record<string, GnoFunc[]> = {
   [BLOG]: [{ FuncName: 'Render', Params: [{ Name: 'path', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] }],
   [DAO]: [{ FuncName: 'Render', Params: [{ Name: 'path', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] }],

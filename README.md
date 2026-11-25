@@ -1,7 +1,7 @@
 # RealmFlow
 
-**Live app:** https://gnoflow-flny.vercel.app (existing deployment; confirm it serves this version)  
-**Onyx registry:** `gno.land/r/<your_namespace>/realmflow_registry` (deploy and replace this placeholder)  
+**Live app:** https://realm-flow.vercel.app  
+**Onyx registry:** `gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2`  
 **Demo video:** <add demo video URL>
 
 ## 15-second pitch
@@ -34,7 +34,7 @@ Unlike EVM chains that typically require an off-chain ABI, Gno exposes these rea
 
 | Criterion | Evidence |
 | --- | --- |
-| Technical Quality (40%) | ABCI RPC integration for Onyx (`onyx-1`) and Mainnet (`gnoland-1`); `cur realm` parameter filtering; `{{stepN.output}}` chaining; registry realm and unit tests in `realms/realmflow_registry`. Deploy the realm to Onyx to demonstrate live registry calls. |
+| Technical Quality (40%) | ABCI RPC integration for Onyx (`onyx-1`) and Mainnet (`gnoland-1`); `cur realm` parameter filtering; `{{stepN.output}}` chaining; registry realm and unit tests in `realms/realmflow_registry`. |
 | User Appeal (20%) | Three-pane IDE, one-click Copy gnokey CLI, shareable `?s=` URLs, and Demo Mode when RPC or a wallet is unavailable. |
 | Creativity (20%) | Multi-step scenarios go beyond browsing in gnoweb; `VerifyScenario` records on-chain verification transactions; the Gno VM Panic Explainer offers plain-English guidance. |
 | Docs & Demo (20%) | Setup and deployment commands below, plus a 90-second demo checklist. |
@@ -48,11 +48,11 @@ npm install
 npm run dev
 ```
 
-Open the URL printed by Vite. Live Mode starts on Onyx and loads the Gno.land blog; enable Demo Mode to explore sample realms offline. Select Onyx, Mainnet, or a custom RPC. Connect Adena for state-changing calls. The default registry is `gno.land/r/realmflow/registry`; set `VITE_REGISTRY_REALM` before building or change the registry path in Settings. Settings take precedence over the environment default. Use a registry deployed on the selected network.
+Open the URL printed by Vite. Live Mode starts on Onyx and loads the Gno.land blog; enable Demo Mode to explore sample realms offline. Select Onyx, Mainnet, or a custom RPC. Connect Adena for state-changing calls. The default registry is `gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2`; set `VITE_REGISTRY_REALM` before building or change the registry path in Settings. Settings take precedence over the environment default. Use a registry deployed on the selected network.
 
 ```bash
 # Example: configure your deployed registry for a build
-VITE_REGISTRY_REALM=gno.land/r/<your_namespace>/realmflow_registry npm run build
+VITE_REGISTRY_REALM=gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2 npm run build
 ```
 
 On PowerShell, set `$env:VITE_REGISTRY_REALM` before running `npm run build`. Scenario links and published payloads are public; do not include secrets.
@@ -71,7 +71,7 @@ gnokey maketx addpkg -pkgpath gno.land/r/<your_namespace>/realmflow_registry \
   -broadcast <your_key>
 ```
 
-Set the deployed path in Settings, switch off Demo Mode, and connect Adena. Publish a scenario, then open Community Scenarios to load it or submit **Verify On-Chain**. A verification count records submitted verification calls; it does not prove that a test was run or passed, and is not restricted to unique testers. Refresh after the transaction is confirmed to see the updated count. The realm and app URL above are placeholders until deployed and verified.
+Set the deployed path in Settings, switch off Demo Mode, and connect Adena. Publish a scenario, then open Community Scenarios to load it or submit **Verify On-Chain**. A verification count records submitted verification calls; it does not prove that a test was run or passed, and is not restricted to unique testers. Refresh after the transaction is confirmed to see the updated count.
 
 ## 90-second demo checklist
 

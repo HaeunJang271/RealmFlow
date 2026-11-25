@@ -1,7 +1,6 @@
-package realmflow
+package realmflow2
 
 import (
-    "chain/runtime"
     "strconv"
     "strings"
 )
@@ -19,7 +18,7 @@ var scenarios []Scenario
 
 func RegisterScenario(cur realm, title string, targetRealm string, payload string) int {
     id := len(scenarios) + 1
-    scenarios = append(scenarios, Scenario{id, runtime.PreviousRealm().Address(), title, targetRealm, payload, 0})
+    scenarios = append(scenarios, Scenario{id, cur.Previous().Address(), title, targetRealm, payload, 0})
     return id
 }
 
