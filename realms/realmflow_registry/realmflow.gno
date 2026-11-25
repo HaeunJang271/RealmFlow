@@ -1,4 +1,4 @@
-package registry
+package workflow
 
 import (
     "chain/runtime"
