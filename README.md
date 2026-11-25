@@ -1,0 +1,73 @@
+# GnoFlow
+
+**Gno.land Realm Scenario Playground** · Gnome Tavern Hackathon
+
+GnoFlow는 Gno.land Realm의 함수를 탐색하고, 여러 호출을 하나의 시나리오로 구성해 순서대로 실행하는 웹 도구입니다. gnoweb으로 Realm을 둘러보는 데서 더 나아가 반복 가능한 호출 흐름, 결과 검증, 오류 설명, 시나리오 공유와 온체인 등록을 제공합니다.
+
+## 주요 기능
+
+- **Realm 함수 탐색** — Realm 경로를 불러와 공개 함수를 확인하고, 매개변수를 입력해 바로 실행하거나 시나리오에 추가합니다.
+- **Call Sequence Runner** — `qeval` 조회와 `m_call` 트랜잭션을 순서대로 실행합니다. 단계의 순서 변경, 복제, 삭제와 예상 문자열 검증을 지원하며 실행 상태, 소요 시간, 출력을 보여줍니다.
+- **Error Explainer** — 자주 발생하는 타입 불일치, 잔액 부족, 권한 오류 등의 원인과 해결 방법을 안내합니다.
+- **시나리오 공유와 등록** — 시나리오가 포함된 URL을 복사하거나 Adena를 통해 GnoFlow Registry Realm에 등록합니다.
+- **Demo Mode** — 네트워크나 지갑 없이 샘플 boards 및 registry Realm을 브라우저에서 시뮬레이션합니다. 데모 데이터는 브라우저 세션에만 유지됩니다.
+
+## 시작하기
+
+Node.js와 npm이 필요합니다.
+
+```bash
+npm install
+npm run dev
+```
+
+터미널에 표시된 Vite 주소를 브라우저에서 엽니다. 프로덕션 빌드는 다음 명령으로 확인할 수 있습니다.
+
+```bash
+npm run build
+```
+
+## 사용 방법
+
+1. 처음 열면 Demo Mode와 샘플 시나리오가 준비됩니다. **Run all steps**를 눌러 순차 실행 결과를 확인합니다.
+2. 왼쪽에서 함수를 선택하고 인자를 입력한 뒤 **Run now** 또는 **Add to scenario**를 선택합니다.
+3. 가운데에서 단계 이름, 실행 방식, Realm 경로, 함수, 인자와 예상 출력 문자열을 편집합니다. 단계별 화살표로 순서를 변경할 수 있습니다.
+4. 오른쪽의 **Result**, **Render() view**, **Error explainer** 탭에서 결과와 오류를 확인합니다.
+5. **Share**를 누르면 시나리오가 담긴 URL이 클립보드에 복사됩니다. 링크를 받은 사람은 같은 Realm과 단계 구성을 열 수 있습니다.
+
+실제 네트워크를 사용하려면 Demo Mode를 끄고 Realm을 다시 불러오세요. 기본 RPC는 `https://rpc.test4.gno.land:443`입니다. 해당 네트워크를 사용할 수 없다면 네트워크 선택기에서 **Custom RPC**를 선택해 사용 가능한 공개 HTTPS RPC 주소를 입력하세요. 조회는 지갑 없이 가능하며, 상태를 변경하는 `m_call`에는 [Adena](https://adena.app/) 연결과 트랜잭션 승인이 필요합니다.
+
+**Publish**는 현재 시나리오를 `gno.land/r/gnoflow/registry`의 `RegisterScenario`로 전송합니다. 먼저 선택한 네트워크에 Registry Realm을 배포하고 Adena를 연결해야 합니다. 공유 URL과 온체인 등록 내용은 다른 사람이 읽을 수 있으므로 비밀 정보를 포함하지 마세요.
+
+## Registry Realm 테스트와 배포
+
+대상 네트워크에 맞는 Gno 툴체인과 잔액이 있는 키를 준비한 뒤 실행합니다.
+
+```bash
+cd realms/gnoflow_registry
+gno test .
+
+gnokey maketx addpkg \
+  -pkgdir . \
+  -pkgpath gno.land/r/gnoflow/registry \
+  -gas-fee 1000000ugnot \
+  -gas-wanted 3000000 \
+  -broadcast \
+  -remote https://YOUR_RPC:443 \
+  YOUR_KEY
+```
+
+`YOUR_RPC`와 `YOUR_KEY`를 실제 값으로 바꾸고 해당 경로에 패키지를 배포할 권한을 확인하세요. Gno API와 CLI 옵션은 네트워크 및 툴체인 버전에 따라 달라질 수 있습니다. 이 Realm은 test4 시기의 `std` 호출자 API를 사용합니다.
+
+## 프로젝트 구조
+
+```text
+api/rpc.ts                    Vercel JSON-RPC 프록시
+src/App.tsx                   3개 패널 워크스페이스와 시나리오 실행기
+src/lib/gno/rpcClient.ts      ABCI 조회 및 데모 Realm 정의
+src/lib/gno/adena.ts          Adena 연결 및 Realm 호출
+src/lib/errorExplainer.ts     오류 설명과 해결 제안
+realms/gnoflow_registry/      시나리오 Registry Realm과 테스트
+```
+
+프런트엔드는 React 18, TypeScript, Vite, Tailwind CSS, lucide-react를 사용합니다. 브라우저의 RPC 조회는 로컬 개발 시 Vite 미들웨어를, Vercel 배포 시 서버리스 함수를 거칩니다. 프록시는 공개 HTTPS 엔드포인트로의 `abci_query` 요청만 전달합니다.
