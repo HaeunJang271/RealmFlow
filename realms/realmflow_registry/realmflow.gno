@@ -47,14 +47,14 @@ func Render(path string) string {
         id, err := strconv.Atoi(strings.TrimPrefix(path, "scenario/"))
         if err != nil || id < 1 || id > len(scenarios) { return "# Scenario not found" }
         s := scenarios[id-1]
-        return "# " + cell(s.Title) + "\n\n- **ID:** " + strconv.Itoa(s.ID) + "\n- **Target realm:** `" + cell(s.TargetRealm) + "`\n- **Verifications:** " + strconv.Itoa(s.VerifyCount) + "\n- **Author:** `" + s.Author.String() + "`\n\n[Open in RealmFlow](https://gnoflow-flny.vercel.app/?s=" + s.Payload + ")\n\n[Back to catalog](../)"
+        return "# " + cell(s.Title) + "\n\n- **ID:** " + strconv.Itoa(s.ID) + "\n- **Target realm:** `" + cell(s.TargetRealm) + "`\n- **Verifications:** " + strconv.Itoa(s.VerifyCount) + "\n- **Author:** `" + s.Author.String() + "`\n\n[Open in RealmFlow](https://realm-flow.vercel.app/?s=" + s.Payload + ")\n\n[Back to catalog](../)"
     }
     if path != "" { return "# Page not found" }
     var b strings.Builder
     b.WriteString("# RealmFlow Registry\n\nShared realm scenarios.\n\n| ID | Title | Target Realm | Verifications | Author | Open in RealmFlow |\n| --- | --- | --- | --- | --- | --- |\n")
     for _, s := range scenarios {
         id := strconv.Itoa(s.ID)
-        b.WriteString("| [" + id + "](scenario/" + id + ") | " + cell(s.Title) + " | " + cell(s.TargetRealm) + " | " + strconv.Itoa(s.VerifyCount) + " | " + s.Author.String() + " | [Open](https://gnoflow-flny.vercel.app/?s=" + s.Payload + ") |\n")
+        b.WriteString("| [" + id + "](scenario/" + id + ") | " + cell(s.Title) + " | " + cell(s.TargetRealm) + " | " + strconv.Itoa(s.VerifyCount) + " | " + s.Author.String() + " | [Open](https://realm-flow.vercel.app/?s=" + s.Payload + ") |\n")
     }
     return b.String()
 }
