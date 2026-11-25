@@ -34,7 +34,7 @@ func GetScenarioCount() int { return len(scenarios) }
 
 func Render(path string) string {
     var b strings.Builder
-    b.WriteString("# GnoFlow Registry\n\nShared realm scenarios.\n\n| ID | Title | Target realm | Author |\n| --- | --- | --- | --- |\n")
+    b.WriteString("# RealmFlow Registry\n\nShared realm scenarios.\n\n| ID | Title | Target realm | Author |\n| --- | --- | --- | --- |\n")
     for _, s := range scenarios {
         b.WriteString("| " + strconv.Itoa(s.ID) + " | " + strings.ReplaceAll(s.Title, "|", "\\|") + " | " + strings.ReplaceAll(s.TargetRealm, "|", "\\|") + " | " + s.Author.String() + " |\n")
     }

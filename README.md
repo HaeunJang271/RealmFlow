@@ -1,15 +1,15 @@
-# GnoFlow
+# RealmFlow
 
 **Gno.land Realm Scenario Playground** · Gnome Tavern Hackathon
 
-GnoFlow는 Gno.land Realm의 함수를 탐색하고, 여러 호출을 하나의 시나리오로 구성해 순서대로 실행하는 웹 도구입니다. gnoweb으로 Realm을 둘러보는 데서 더 나아가 반복 가능한 호출 흐름, 결과 검증, 오류 설명, 시나리오 공유와 온체인 등록을 제공합니다.
+RealmFlow는 Gno.land Realm의 함수를 탐색하고, 여러 호출을 하나의 시나리오로 구성해 순서대로 실행하는 웹 도구입니다. gnoweb으로 Realm을 둘러보는 데서 더 나아가 반복 가능한 호출 흐름, 결과 검증, 오류 설명, 시나리오 공유와 온체인 등록을 제공합니다.
 
 ## 주요 기능
 
 - **Realm 함수 탐색** — Realm 경로를 불러와 공개 함수를 확인하고, 매개변수를 입력해 바로 실행하거나 시나리오에 추가합니다.
 - **Call Sequence Runner** — `qeval` 조회와 `m_call` 트랜잭션을 순서대로 실행합니다. 단계의 순서 변경, 복제, 삭제와 예상 문자열 검증을 지원하며 실행 상태, 소요 시간, 출력을 보여줍니다.
 - **Error Explainer** — 자주 발생하는 타입 불일치, 잔액 부족, 권한 오류 등의 원인과 해결 방법을 안내합니다.
-- **시나리오 공유와 등록** — 시나리오가 포함된 URL을 복사하거나 Adena를 통해 GnoFlow Registry Realm에 등록합니다.
+- **시나리오 공유와 등록** — 시나리오가 포함된 URL을 복사하거나 Adena를 통해 RealmFlow Registry Realm에 등록합니다.
 - **변수 연결** — `{{step1.output}}`을 이후 단계의 인자에 넣어 앞선 출력값을 전달합니다. 실행 로그에서 실제 전달된 인자를 확인할 수 있습니다.
 - **소스와 CLI** — Live Mode의 Source 탭에서 `vm/qfile`로 `.gno` 파일을 탐색하고, 각 함수와 단계에서 `gnokey` 명령을 복사합니다.
 - **Community Scenarios** — 데모 예제를 불러오거나, 설정한 Registry Realm에 등록된 시나리오를 탐색합니다.

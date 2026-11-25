@@ -5,7 +5,7 @@ export type Wallet = { address: string; balance: string; chainId: string }
 function unwrap(response: AdenaResponse): Record<string, unknown> { if (response.status && response.status !== 'success') throw new Error(response.message || `Adena: ${response.status}`); return (response.data || {}) as Record<string, unknown> }
 export async function connectAdena(): Promise<Wallet> {
   if (!window.adena) throw new Error('Adena not found. Install the Adena wallet to connect.')
-  unwrap(await window.adena.AddEstablish('GnoFlow')); const account = unwrap(await window.adena.GetAccount())
+  unwrap(await window.adena.AddEstablish('RealmFlow')); const account = unwrap(await window.adena.GetAccount())
   return { address: String(account.address || ''), balance: typeof account.balance === 'string' ? account.balance : JSON.stringify(account.balance || ''), chainId: String(account.chainId || account.chain_id || '') }
 }
 export async function callRealmMethod({ caller, pkgPath, func, args, send = '' }: { caller: string; pkgPath: string; func: string; args: string[]; send?: string }) {
