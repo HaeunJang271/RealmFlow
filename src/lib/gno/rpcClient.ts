@@ -6,7 +6,7 @@ export const BOARDS = 'gno.land/r/demo/boards'
 export const BLOG = 'gno.land/r/gnoland/blog'
 export const DAO = 'gno.land/r/gov/dao'
 export const USERS = 'gno.land/r/sys/users'
-export const REGISTRY = 'gno.land/r/gnoflow/registry'
+export const REGISTRY = import.meta.env?.VITE_REGISTRY_REALM || 'gno.land/r/realmflow/registry'
 export const demos: Record<string, GnoFunc[]> = {
   [BLOG]: [{ FuncName: 'Render', Params: [{ Name: 'path', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] }],
   [DAO]: [{ FuncName: 'Render', Params: [{ Name: 'path', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] }],
@@ -20,6 +20,7 @@ export const demos: Record<string, GnoFunc[]> = {
   [REGISTRY]: [
     { FuncName: 'GetScenarioCount', Params: [], Results: [{ Name: '', Type: 'int' }] },
     { FuncName: 'GetScenario', Params: [{ Name: 'id', Type: 'int' }], Results: [{ Name: '', Type: 'string' }] },
+    { FuncName: 'VerifyScenario', Params: [{ Name: 'id', Type: 'int' }], Results: [{ Name: '', Type: 'int' }] },
     { FuncName: 'RegisterScenario', Params: [{ Name: 'title', Type: 'string' }, { Name: 'targetRealm', Type: 'string' }, { Name: 'payload', Type: 'string' }], Results: [{ Name: '', Type: 'int' }] },
   ],
 }
@@ -45,3 +46,4 @@ export const queryEval = (rpcUrl: string, pkgPath: string, expr: string) => abci
 export const queryFile = (rpcUrl: string, path: string) => abciQuery(rpcUrl, 'vm/qfile', path)
 export const isRealmParam = (param: GnoParam) => /\.seal\s+func\(\)|\.uverse\.realm/.test(param.Type)
 export const userParams = (func: GnoFunc) => func.Params.filter(p => !isRealmParam(p))
+

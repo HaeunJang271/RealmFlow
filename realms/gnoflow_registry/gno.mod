@@ -1,1 +1,0 @@
-module gno.land/r/gnoflow/registry
