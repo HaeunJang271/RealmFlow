@@ -48,7 +48,7 @@ npm install
 npm run dev
 ```
 
-Open the URL printed by Vite. Demo Mode starts enabled for the sample workspace; disable it for live RPC calls. Select Onyx, Mainnet, or a custom RPC. Connect Adena for state-changing calls. The default registry is `gno.land/r/realmflow/registry`; set `VITE_REGISTRY_REALM` before building or change the registry path in Settings. Settings take precedence over the environment default. Use a registry deployed on the selected network.
+Open the URL printed by Vite. Live Mode starts on Onyx and loads the Gno.land blog; enable Demo Mode to explore sample realms offline. Select Onyx, Mainnet, or a custom RPC. Connect Adena for state-changing calls. The default registry is `gno.land/r/realmflow/registry`; set `VITE_REGISTRY_REALM` before building or change the registry path in Settings. Settings take precedence over the environment default. Use a registry deployed on the selected network.
 
 ```bash
 # Example: configure your deployed registry for a build
