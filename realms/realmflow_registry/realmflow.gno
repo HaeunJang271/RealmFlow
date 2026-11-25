@@ -1,4 +1,4 @@
-package workflow
+package realmflow
 
 import (
     "chain/runtime"
