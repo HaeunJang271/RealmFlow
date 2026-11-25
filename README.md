@@ -35,7 +35,7 @@ npm run build
 4. 오른쪽의 **Result**, **Render() view**, **Error explainer** 탭에서 결과와 오류를 확인합니다.
 5. **Share**를 누르면 시나리오가 담긴 URL이 클립보드에 복사됩니다. 링크를 받은 사람은 같은 Realm과 단계 구성을 열 수 있습니다.
 
-실제 네트워크를 사용하려면 Demo Mode를 끄고 Realm을 다시 불러오세요. 기본 RPC는 `https://rpc.test4.gno.land:443`입니다. 해당 네트워크를 사용할 수 없다면 네트워크 선택기에서 **Custom RPC**를 선택해 사용 가능한 공개 HTTPS RPC 주소를 입력하세요. 조회는 지갑 없이 가능하며, 상태를 변경하는 `m_call`에는 [Adena](https://adena.app/) 연결과 트랜잭션 승인이 필요합니다.
+실제 네트워크를 사용하려면 Demo Mode를 끄고 Realm을 다시 불러오세요. 기본 네트워크는 **Testnet Onyx** (`onyx-1`, `https://rpc.latest.testnets.gno.land:443`)입니다. 네트워크 선택기에서 **Mainnet** (`gnoland-1`, `https://rpc.gno.land:443`) 또는 **Custom RPC**를 선택할 수 있습니다. Custom RPC에는 공개 HTTPS 주소를 입력하세요. 조회는 지갑 없이 가능하며, 상태를 변경하는 `m_call`에는 선택한 네트워크에 맞게 설정된 [Adena](https://adena.app/)와 트랜잭션 승인이 필요합니다. `latest` 주소가 가리키는 테스트넷과 체인 ID는 변경될 수 있습니다.
 
 **Publish**는 현재 시나리오를 `gno.land/r/gnoflow/registry`의 `RegisterScenario`로 전송합니다. 먼저 선택한 네트워크에 Registry Realm을 배포하고 Adena를 연결해야 합니다. 공유 URL과 온체인 등록 내용은 다른 사람이 읽을 수 있으므로 비밀 정보를 포함하지 마세요.
 
@@ -53,11 +53,12 @@ gnokey maketx addpkg \
   -gas-fee 1000000ugnot \
   -gas-wanted 3000000 \
   -broadcast \
-  -remote https://YOUR_RPC:443 \
+  -remote https://rpc.latest.testnets.gno.land:443 \
+  -chainid onyx-1 \
   YOUR_KEY
 ```
 
-`YOUR_RPC`와 `YOUR_KEY`를 실제 값으로 바꾸고 해당 경로에 패키지를 배포할 권한을 확인하세요. Gno API와 CLI 옵션은 네트워크 및 툴체인 버전에 따라 달라질 수 있습니다. 이 Realm은 test4 시기의 `std` 호출자 API를 사용합니다.
+`YOUR_KEY`를 실제 값으로 바꾸고 해당 경로에 패키지를 배포할 권한을 확인하세요. 메인넷에 배포할 때는 RPC와 체인 ID를 각각 `https://rpc.gno.land:443`, `gnoland-1`로 바꾸세요. Gno API와 CLI 옵션은 네트워크 및 툴체인 버전에 따라 달라질 수 있으므로 Realm 코드를 대상 네트워크의 툴체인으로 확인하세요.
 
 ## 프로젝트 구조
 

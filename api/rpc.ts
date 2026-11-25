@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { lookup } from 'node:dns/promises'
 import { isIP } from 'node:net'
-const DEFAULT_RPC = 'https://rpc.test4.gno.land:443'
+const DEFAULT_RPC = 'https://rpc.latest.testnets.gno.land:443'
 const privateIp = (ip: string) => ip === '::1' || ip === '::' || ip.startsWith('::ffff:') || /^(127\.|10\.|0\.|169\.254\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(ip) || /^(fc|fd|fe8|fe9|fea|feb)/i.test(ip)
 export async function rpcProxy(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
   res.setHeader('Content-Type', 'application/json')

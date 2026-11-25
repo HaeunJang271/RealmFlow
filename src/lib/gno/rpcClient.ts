@@ -1,6 +1,7 @@
 export type GnoParam = { Name: string; Type: string }
 export type GnoFunc = { FuncName: string; Params: GnoParam[]; Results: GnoParam[] }
-export const DEFAULT_RPC = 'https://rpc.test4.gno.land:443'
+export const DEFAULT_RPC = 'https://rpc.latest.testnets.gno.land:443'
+export const MAINNET_RPC = 'https://rpc.gno.land:443'
 export const BOARDS = 'gno.land/r/demo/boards'
 export const REGISTRY = 'gno.land/r/gnoflow/registry'
 export const demos: Record<string, GnoFunc[]> = {
@@ -18,8 +19,9 @@ export const demos: Record<string, GnoFunc[]> = {
 }
 function decode(value: string) { const bytes = Uint8Array.from(atob(value), c => c.charCodeAt(0)); return new TextDecoder().decode(bytes) }
 export async function abciQuery(rpcUrl: string, path: string, data: string): Promise<string> {
-  const hex = Array.from(new TextEncoder().encode(data), b => b.toString(16).padStart(2, '0')).join('')
-  const response = await fetch('/api/rpc', { method: 'POST', headers: { 'content-type': 'application/json', targetRpc: rpcUrl }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'abci_query', params: { path, data: `0x${hex}` } }) })
+  const bytes = new TextEncoder().encode(data)
+  const encoded = btoa(Array.from(bytes, byte => String.fromCharCode(byte)).join(''))
+  const response = await fetch('/api/rpc', { method: 'POST', headers: { 'content-type': 'application/json', targetRpc: rpcUrl }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'abci_query', params: { path, data: encoded } }) })
   const json = await response.json()
   if (!response.ok || json.error) throw new Error(typeof json.error === 'string' ? json.error : json.error?.message || `RPC request failed (${response.status})`)
   const result = json.result?.response || json.result?.Response || json.result; const base = result?.ResponseBase || result
