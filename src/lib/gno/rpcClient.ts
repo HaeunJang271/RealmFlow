@@ -3,8 +3,14 @@ export type GnoFunc = { FuncName: string; Params: GnoParam[]; Results: GnoParam[
 export const DEFAULT_RPC = 'https://rpc.latest.testnets.gno.land:443'
 export const MAINNET_RPC = 'https://rpc.gno.land:443'
 export const BOARDS = 'gno.land/r/demo/boards'
+export const BLOG = 'gno.land/r/gnoland/blog'
+export const DAO = 'gno.land/r/gov/dao'
+export const USERS = 'gno.land/r/sys/users'
 export const REGISTRY = 'gno.land/r/gnoflow/registry'
 export const demos: Record<string, GnoFunc[]> = {
+  [BLOG]: [{ FuncName: 'Render', Params: [{ Name: 'path', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] }],
+  [DAO]: [{ FuncName: 'Render', Params: [{ Name: 'path', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] }],
+  [USERS]: [{ FuncName: 'Render', Params: [{ Name: 'path', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] }],
   [BOARDS]: [
     { FuncName: 'GetBoard', Params: [{ Name: 'name', Type: 'string' }], Results: [{ Name: '', Type: 'string' }] },
     { FuncName: 'GetPost', Params: [{ Name: 'board', Type: 'string' }, { Name: 'id', Type: 'int' }], Results: [{ Name: '', Type: 'string' }] },
@@ -36,3 +42,6 @@ export async function fetchRealmFuncs(rpcUrl: string, pkgPath: string): Promise<
 }
 export const queryRender = (rpcUrl: string, pkgPath: string, args = '') => abciQuery(rpcUrl, 'vm/qrender', `${pkgPath}:${args}`)
 export const queryEval = (rpcUrl: string, pkgPath: string, expr: string) => abciQuery(rpcUrl, 'vm/qeval', `${pkgPath}.${expr}`)
+export const queryFile = (rpcUrl: string, path: string) => abciQuery(rpcUrl, 'vm/qfile', path)
+export const isRealmParam = (param: GnoParam) => /\.seal\s+func\(\)|\.uverse\.realm/.test(param.Type)
+export const userParams = (func: GnoFunc) => func.Params.filter(p => !isRealmParam(p))
