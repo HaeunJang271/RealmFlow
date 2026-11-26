@@ -1,7 +1,7 @@
 # RealmFlow
 
-**Live app:** https://realm-flow.vercel.app  
-**Onyx registry:** `gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2`  
+**Live app:** https://realm-flow.vercel.app
+**Onyx registry:** `gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2`
 **Demo video:** <add demo video URL>
 
 ## 15-second pitch
@@ -88,3 +88,14 @@ npm test
 npm run build
 cd realms/realmflow_registry && gno test
 ```
+
+## One-click testing and export
+
+- **1-Click Realm Smoke Test** runs eligible read-only functions for a realm, reports failures and latency, and shares a rerunnable report URL with `?realm=...&smoke=1`. The recipient runs the test against the selected network; the link does not store results.
+- **Export to *_test.gno** converts a browser scenario, including output chaining, to Gno test code. Review signatures, return values, realm contexts and cross-realm imports before running `gno test`.
+
+## Live Smoke Test Reports
+
+- [Gno.land blog](https://realm-flow.vercel.app/?realm=gno.land/r/gnoland/blog&smoke=1)
+- [GovDAO](https://realm-flow.vercel.app/?realm=gno.land/r/gov/dao&smoke=1)
+- [Users](https://realm-flow.vercel.app/?realm=gno.land/r/sys/users&smoke=1)

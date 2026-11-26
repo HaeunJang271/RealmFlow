@@ -44,6 +44,9 @@ export async function fetchRealmFuncs(rpcUrl: string, pkgPath: string): Promise<
 export const queryRender = (rpcUrl: string, pkgPath: string, args = '') => abciQuery(rpcUrl, 'vm/qrender', `${pkgPath}:${args}`)
 export const queryEval = (rpcUrl: string, pkgPath: string, expr: string) => abciQuery(rpcUrl, 'vm/qeval', `${pkgPath}.${expr}`)
 export const queryFile = (rpcUrl: string, path: string) => abciQuery(rpcUrl, 'vm/qfile', path)
+export async function fetchSourceFiles(rpcUrl: string, pkgPath: string): Promise<string[]> {
+  const result = await queryFile(rpcUrl, pkgPath)
+  return result.split(/\r?\n/).map(s => s.trim()).filter(s => /^[\w.-]+\.gno$/.test(s))
+}
 export const isRealmParam = (param: GnoParam) => /\.seal\s+func\(\)|\.uverse\.realm/.test(param.Type)
 export const userParams = (func: GnoFunc) => func.Params.filter(p => !isRealmParam(p))
-

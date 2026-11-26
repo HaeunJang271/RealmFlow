@@ -17,6 +17,14 @@ export default function SourceView({ rpc, realm, demo, notify, errorFocus }: { r
   useEffect(() => { void list() }, [rpc, realm, demo])
   useEffect(() => { if (!file) return; let current = true; setLoading(true); setSource(''); setError(''); queryFile(rpc, `${realm}/${file}`).then(text => { if (current) setSource(text) }).catch(e => { if (current) setError(e instanceof Error ? e.message : String(e)) }).finally(() => { if (current) setLoading(false) }); return () => { current = false } }, [file, realm, rpc])
   useEffect(() => { if (errorFocus?.file && files.includes(errorFocus.file)) setFile(errorFocus.file) }, [errorFocus, files])
+  useEffect(() => {
+    if (demo || errorFocus?.file || !errorFocus?.funcName || !files.length) return
+    let current = true
+    const name = errorFocus.funcName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const signature = new RegExp(`^\\s*func\\s+${name}\\s*\\(`, 'm')
+    void (async () => { for (const candidate of files) { try { if (signature.test(await queryFile(rpc, `${realm}/${candidate}`))) { if (current) setFile(candidate); break } } catch { /* Try the next file. */ } } })()
+    return () => { current = false }
+  }, [errorFocus, files, rpc, realm, demo])
   const lines = source.split(/\r?\n/)
   const focusLine = errorFocus && (!errorFocus.file || errorFocus.file === file) ? (errorFocus.line || (errorFocus.funcName ? lines.findIndex(line => new RegExp(`^\\s*func\\s+${errorFocus.funcName!.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\(`).test(line)) + 1 : 0)) : 0
   useEffect(() => { if (focusLine && focusLine <= lines.length) focusedRow.current?.scrollIntoView({ block: 'center', behavior: 'smooth' }) }, [focusLine, source, errorFocus])

@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { resolveArgs, parseOutput, cliCommand, encode, decodeScenario, type Step } from '../src/lib/scenario.ts'
+import { resolveArgs, parseOutput, cliCommand, encode, decodeScenario, exportGnoTest, type Step } from '../src/lib/scenario.ts'
 import { isRealmParam, userParams } from '../src/lib/gno/rpcClient.ts'
 
 test('resolves typed outputs and rejects references to unavailable steps', () => {
@@ -22,4 +22,12 @@ test('scenario payload round trips and CLI safely quotes arguments', () => {
   const command = cliCommand({ ...step, mode: 'm_call', args: ["it's safe"] }, 'https://rpc.gno.land:443', 'gnoland-1', 'alice')
   assert.match(command, /-chainid 'gnoland-1'/)
   assert.ok(command.includes("'it'\\''s safe'"))
+})
+
+test('exports assertions and chained outputs as Gno code', () => {
+  const base: Step = { id: '1', name: 'read', mode: 'qeval', realm: 'gno.land/r/demo/example', func: 'Get', args: [], types: [], expected: 'ok', status: 'idle', output: '' }
+  const code = exportGnoTest({ title: 'sample flow', realm: base.realm, steps: [base, { ...base, id: '2', func: 'Find', args: ['id={{step1.output}}'], types: ['string'], expected: '' }] })
+  assert.match(code, /func TestSampleFlow\(t \*testing.T\)/)
+  assert.match(code, /strings.Contains\(fmt.Sprint\(step1Out\), "ok"\)/)
+  assert.match(code, /Find\("id=" \+ fmt.Sprint\(step1Out\)\)/)
 })

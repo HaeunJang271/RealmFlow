@@ -6,3 +6,16 @@
 .inline-realm{color:#8cdfaa;background:#1c3527;border:1px solid #2d4a38;border-radius:3px;padding:1px 3px}
 
 .source-code{padding:12px 0}.source-row{display:flex;align-items:baseline;min-width:max-content;padding-right:12px}.source-line-num{display:inline-block;flex:0 0 44px;text-align:right;padding:0 12px;color:#607168;user-select:none}.source-line-error{background:#562728;border-left:3px solid #e16b6b}.source-line-error .source-line-num{color:#ffb4b4;flex-basis:41px}.source-error-badge{margin-left:16px;padding:2px 6px;border-radius:4px;background:#733638;color:#ffd4d4;font:10px sans-serif;white-space:normal;max-width:220px}.preset-section h3,.community-list>h3{font-size:14px;color:#dce8df;margin:20px 0 10px}.preset-section>p,.quick-realm p{font-size:11px;color:#899991;line-height:1.5}.quick-realm{padding:14px;border:1px solid #304138;border-radius:6px}.quick-realm label{font-size:13px;font-weight:600}.quick-realm div{display:flex;gap:8px}.quick-realm input{flex:1;min-width:0;background:#0f1411;border:1px solid #35443a;border-radius:5px;color:#dce8df;padding:9px}
+.smoke-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+.smoke-summary > div, .smoke-item { background: #171c25; border: 1px solid #303744; border-radius: 8px; padding: 12px; }
+.smoke-summary strong, .smoke-summary small { display: block; }
+.smoke-summary small, .smoke-realm, .smoke-item small { color: #929bad; font-size: 11px; }
+.smoke-realm { overflow-wrap: anywhere; }
+.smoke-item { margin: 8px 0; }
+.smoke-item > div { display: flex; align-items: center; gap: 8px; }
+.smoke-item small { margin-left: auto; }
+.smoke-item pre { color: #aab4c3; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 3.2em; overflow: hidden; font-size: 12px; margin: 8px 0; }
+.smoke-fail { color: #ff8888; background: #48272d; }
+.export-modal { width: min(760px, 94vw); }
+.export-code { max-height: 55vh; overflow: auto; white-space: pre; }
+.export-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; flex-wrap: wrap; }

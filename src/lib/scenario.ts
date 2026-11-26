@@ -27,3 +27,32 @@ export function cliCommand(step: Step, rpc: string, chainId: string, key: string
   if (step.mode === 'qeval') return `gnokey query vm/qeval -data ${quote(`${step.realm}.${expression(step)}`)} -remote ${quote(rpc)}`
   return `gnokey maketx call -pkgpath ${quote(step.realm)} -func ${quote(step.func)}${step.args.map(a => ` -args ${quote(a)}`).join('')} -gas-fee 2000ugnot -gas-wanted 3000000 -chainid ${quote(chainId)} -remote ${quote(rpc)} -broadcast ${quote(key)}`
 }
+export const gnoPackageName = (realm: string) => realm.split('/').pop()?.replace(/[^a-zA-Z0-9_]/g, '_') || 'realm'
+export function exportGnoTest(scenario: Scenario): string {
+  const expected = scenario.steps.some(s => s.expected.trim())
+  const refs = scenario.steps.some(s => s.args.some((a, i) => /\{\{step\d+\.output\}\}/.test(a) && (!/^\{\{step\d+\.output\}\}$/.test(a) || (s.types[i] || 'string') === 'string')))
+  const imports = ['testing', ...(expected || refs ? ['fmt'] : []), ...(expected ? ['strings'] : [])]
+  const name = scenario.title.split(/[^a-zA-Z0-9]+/).filter(Boolean).map(s => s[0].toUpperCase() + s.slice(1)).join('') || 'Scenario'
+  const lines = [`package ${gnoPackageName(scenario.realm)}`, '', 'import (', ...imports.map(i => `\t"${i}"`), ')', '', `func Test${name}(t *testing.T) {`]
+  if (scenario.steps.some(s => s.mode === 'm_call')) lines.push('\t// State-changing calls need a realm context. Adapt to your Gno version:', '\t// import "std" and use testing.SetRealm(testing.NewUserRealm(std.Address("g1...")))', '\t// Define cross for your realm before using it below.')
+  scenario.steps.forEach((step, index) => {
+    if (step.realm !== scenario.realm) lines.push(`\t// TODO: ${step.func} belongs to ${step.realm}; import and qualify it for this package.`)
+    const args = step.args.map((arg, i) => {
+      const type = step.types[i] || 'string'
+      const exact = arg.match(/^\{\{step(\d+)\.output\}\}$/)
+      if (exact) return type === 'string' ? `fmt.Sprint(step${exact[1]}Out)` : `step${exact[1]}Out`
+      const pieces = arg.split(/(\{\{step\d+\.output\}\})/g).filter(Boolean)
+      if (pieces.length > 1 || /\{\{step\d+\.output\}\}/.test(arg)) return pieces.map(p => { const ref = p.match(/^\{\{step(\d+)\.output\}\}$/); return ref ? `fmt.Sprint(step${ref[1]}Out)` : JSON.stringify(p) }).join(' + ')
+      if (/^(u?int|float)/i.test(type) || type === 'bool') return arg || (type === 'bool' ? 'false' : '0')
+      if (/^(address|\.uverse\.address)$/.test(type)) return `address(${JSON.stringify(arg)})`
+      return JSON.stringify(arg)
+    })
+    const n = index + 1
+    if (step.mode === 'm_call') lines.push('\t// State-changing call (cross)')
+    lines.push(`\tstep${n}Out := ${step.func}(${[...(step.mode === 'm_call' ? ['cross'] : []), ...args].join(', ')})`)
+    if (step.expected.trim()) lines.push(`\tif !strings.Contains(fmt.Sprint(step${n}Out), ${JSON.stringify(step.expected)}) {`, `\t\tt.Fatalf("step ${n} failed: got %v", step${n}Out)`, '\t}')
+    else lines.push(`\t_ = step${n}Out`)
+  })
+  lines.push('}', '')
+  return lines.join('\n')
+}
