@@ -9,7 +9,17 @@ function sample(title: string, realm: string, func: string, args: string[], expe
   return { title, realm, steps: [step] }
 }
 const onyxRegistry = 'gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2'
-const examples = [sample('Gno.land Blog Smoke Test', BLOG, 'Render', ['']), sample('GovDAO Governance Check', DAO, 'Render', ['']), sample('Users Registry Lookup', USERS, 'Render', ['']), sample('RealmFlow Registry Self-Check', onyxRegistry, 'GetScenarioCount', [])]
+const examples = [
+  sample('Gno.land Blog Smoke Test', BLOG, 'Render', ['']),
+  sample('GovDAO Governance Check', DAO, 'Render', ['']),
+  sample('Users Registry Lookup', USERS, 'Render', ['']),
+  sample('RealmFlow Registry Self-Check', onyxRegistry, 'GetScenarioCount', []),
+  sample('Tavern2048 (On-Chain 2048)', 'gno.land/r/g15crxnxd79syggtha6ymfhy8m8a4ytqel58cwkg/tavern2048/v0', 'Render', ['']),
+  sample('OathLedger (Escrow & Proof-of-Contribution)', 'gno.land/r/g1ty0rp975ndkcse760v0zt659f4phs4z8lueud7/oathledger', 'Render', ['']),
+  sample('MilestoneEscrow (Multi-Milestone Escrow)', 'gno.land/r/g1kkcw4krnhxadt08gjxs5ud2jhv87rtlzt29thy/milestone_escrow', 'Render', ['']),
+  sample('Guildhall Bounties', 'gno.land/r/g1lnkytfqcjwllws63gvf0mv9yt04aswy4y9amhm/guildhall/bounties', 'Render', ['']),
+  sample('OnyxSage (On-Chain AI Realm Reviews)', 'gno.land/r/g1csu73nv8c38a8xru5vk6wgq0ltnpvzd79a6udn/gnosage', 'Render', ['']),
+]
 const chain = sample('Multi-Step Variable Chaining Demo', onyxRegistry, 'GetScenarioCount', [])
 chain.steps.push({ ...sample('Render with step 1 output', BLOG, 'Render', ['{{step1.output}}']).steps[0] })
 const presets = [...examples, chain]
