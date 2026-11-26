@@ -2,7 +2,12 @@
 
 **Live app:** https://realm-flow.vercel.app
 **Onyx registry:** `gno.land/r/g1832jd5gytypzj48d0328r2sqvv2x38zj0zryuq/realmflow2`
-**Demo video:** <add demo video URL>
+
+## 🎥 Demo Video (90s)
+
+[![RealmFlow Demo Video](https://img.youtube.com/vi/Auyz9HsrioU/maxresdefault.jpg)](https://youtu.be/Auyz9HsrioU)
+
+👉 **Watch on YouTube:** https://youtu.be/Auyz9HsrioU
 
 ## 15-second pitch
 
